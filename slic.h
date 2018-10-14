@@ -24,7 +24,7 @@ using namespace std;
 /* 2d matrices are handled by 2d vectors. */
 #define vec2dd vector<vector<double> >
 #define vec2di vector<vector<int> >
-#define vec2db vector<vector<bool> >
+
 /* The number of iterations run by the clustering algorithm. */
 #define NR_ITERATIONS 10
 
@@ -54,25 +54,16 @@ class Slic {
         double compute_dist(int ci, CvPoint pixel, CvScalar colour);
         /* Find the pixel with the lowest gradient in a 3x3 surrounding. */
         CvPoint find_local_minimum(IplImage *image, CvPoint center);
-        
-        /* Remove and initialize the 2d vectors. */
-        void clear_data();
-        void init_data(IplImage *image);
 
     public:
-        /* Class constructors and deconstructors. */
-        Slic();
-        ~Slic();
-        
+        /* Initialization stage */
+        Slic(IplImage *image, int step, int nc);
         /* Generate an over-segmentation for an image. */
-        void generate_superpixels(IplImage *image, int step, int nc);
+        void generate_superpixels(IplImage *image);
         /* Enforce connectivity for an image. */
         void create_connectivity(IplImage *image);
         
-        /* Draw functions. Resp. displayal of the centers and the contours. */
-        void display_center_grid(IplImage *image, CvScalar colour);
-        void display_contours(IplImage *image, CvScalar colour);
-        void colour_with_cluster_means(IplImage *image);
+        vec2di get_clusters() { return clusters; };
 };
 
 #endif
